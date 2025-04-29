@@ -7,3 +7,4 @@ pytz==2025.2
 reportlab==4.4.0
 six==1.17.0
 tzdata==2025.2
+vobject==0.9.9
