@@ -1,0 +1,9 @@
+chardet==5.2.0
+numpy==2.2.5
+pandas==2.2.3
+pillow==11.2.1
+python-dateutil==2.9.0.post0
+pytz==2025.2
+reportlab==4.4.0
+six==1.17.0
+tzdata==2025.2
