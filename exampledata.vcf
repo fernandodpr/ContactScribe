@@ -1,0 +1,32 @@
+BEGIN:VCARD
+VERSION:3.0
+N:LastName 1;FirstName 1;;;
+FN:FirstName 1 LastName 1
+TEL;TYPE=CELL:123456789
+TEL;TYPE=HOME:987654321
+EMAIL;TYPE=INTERNET:email1@example.com
+ADR;TYPE=HOME:;;Fake Street 123;City 1;State 1;12345;Spain
+ORG:Organization 1
+TITLE:Position 1
+NOTE:Test note for contact 1.
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+N:LastName 2;FirstName 2;;;
+FN:FirstName 2 LastName 2
+TEL;TYPE=WORK:555555555
+EMAIL;TYPE=WORK:email2@company.com
+ADR;TYPE=WORK:;;Office 42;City 2;State 2;54321;Spain
+ORG:Organization 2
+TITLE:Position 2
+END:VCARD
+
+BEGIN:VCARD
+VERSION:3.0
+N:LastName 3;FirstName 3;;;
+FN:FirstName 3 LastName 3
+TEL;TYPE=HOME,VOICE:666666666
+EMAIL;TYPE=INTERNET:email3@domain.com
+NOTE:Only has email and phone.
+END:VCARD
