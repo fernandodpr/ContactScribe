@@ -1,11 +1,18 @@
 import pandas as pd
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
+from reportlab.lib.utils import simpleSplit
 from datetime import datetime
 import os
+import sys
 
-CSV_PATH = "contactos.csv"
-PDF_PATH = "contactos_exportados.pdf"
+# Validación de argumentos
+if len(sys.argv) < 2:
+    print("Uso: python exportador.py <ruta_del_csv>")
+    sys.exit(1)
+
+CSV_PATH = sys.argv[1]
+PDF_PATH = os.path.splitext(CSV_PATH)[0] + ".pdf"
 
 # Cargar CSV y limpiar
 df = pd.read_csv(CSV_PATH, dtype=str).fillna("")
@@ -23,7 +30,7 @@ c.setFont("Helvetica-Oblique", 10)
 c.drawString(40, y, f"Export date: {fecha_exportacion}")
 y -= 30
 
-# Configuración de columnas
+# Configuración
 telefonos = {
     "Teléfono (Trabajo)": "(trabajo)",
     "Teléfono particular": "(personal)",
@@ -57,8 +64,7 @@ for _, row in df.iterrows():
 
     # Mostrar todos los nombres
     c.setFont("Helvetica-Bold", 12)
-    nombre_base = f"{row['Nombre']} {row['Apellidos']}".strip()
-    c.drawString(40, y, nombre_base)
+    c.drawString(40, y, f"{row['Nombre']} {row['Apellidos']}".strip())
     y -= 15
 
     c.setFont("Helvetica", 10)
@@ -95,8 +101,9 @@ for _, row in df.iterrows():
     correo_trab = row["Dirección de correo electrónico principal"]
     if puesto or telefono_trab or correo_trab:
         c.setFont("Helvetica-Bold", 10)
-        c.drawString(40, y, puesto)
-        y -= 12
+        if puesto:
+            c.drawString(40, y, puesto)
+            y -= 12
         c.setFont("Helvetica", 10)
         if telefono_trab:
             c.drawString(40, y, f"Work phone: {telefono_trab}")
@@ -114,12 +121,15 @@ for _, row in df.iterrows():
         except ValueError:
             pass
 
-    # Otros campos
+
+
     otros = [f"{row[col]}" for col in df.columns if col not in campos_ignorados and row[col]]
     if otros:
-        c.drawString(40, y, "Other: " + ", ".join(otros))
-        y -= 12
-
+        otros_texto = "Other: " + ", ".join(otros)
+        lineas = simpleSplit(otros_texto, "Helvetica", 10, width - 80)
+        for linea in lineas:
+            c.drawString(40, y, linea)
+            y -= 12
     # Línea divisoria
     c.line(40, y, width - 40, y)
     y -= 20
